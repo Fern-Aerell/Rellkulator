@@ -81,16 +81,18 @@
                         <!-- Buttons -->
                         <div class="row g-2">
                             <div class="col-3">
-                                <button class="btn btn-light btn-calculator" id="button_percen" title="Persen">%</button>
+                                <button class="btn btn-light btn-calculator" id="button_percen"
+                                    title="Persen">%</button>
                             </div>
                             <div class="col-3">
-                                <button class="btn btn-light btn-calculator" id="button_clear" title="Mengatur Ulang">MU</button>
+                                <button class="btn btn-light btn-calculator" id="button_clear"
+                                    title="Mengatur Ulang">MU</button>
                             </div>
                             <div class="col-3">
                                 <button class="btn btn-light btn-calculator" id="button_delete" title="Hapus">H</button>
                             </div>
                             <div class="col-3">
-                                <button class="btn btn-primary btn-calculator" id="button_div" title="Bagi">/</button>
+                                <button class="btn btn-primary btn-calculator" id="button_div" title="Bagi">÷</button>
                             </div>
                         </div>
                         <div class="row g-2 mt-1">
@@ -98,13 +100,15 @@
                                 <button class="btn btn-secondary btn-calculator" id="button_7" title="Tujuh">7</button>
                             </div>
                             <div class="col-3">
-                                <button class="btn btn-secondary btn-calculator" id="button_8" title="Delapan">8</button>
+                                <button class="btn btn-secondary btn-calculator" id="button_8"
+                                    title="Delapan">8</button>
                             </div>
                             <div class="col-3">
-                                <button class="btn btn-secondary btn-calculator" id="button_9" title="Sembilan">9</button>
+                                <button class="btn btn-secondary btn-calculator" id="button_9"
+                                    title="Sembilan">9</button>
                             </div>
                             <div class="col-3">
-                                <button class="btn btn-primary btn-calculator" id="button_mul" title="Kali">*</button>
+                                <button class="btn btn-primary btn-calculator" id="button_mul" title="Kali">x</button>
                             </div>
                         </div>
                         <div class="row g-2 mt-1">
@@ -137,7 +141,8 @@
                         </div>
                         <div class="row g-2 mt-1">
                             <div class="col-3">
-                                <button class="btn btn-light btn-calculator" id="button_positive_negative" title="Positif Atau Negatif">+/-</button>
+                                <button class="btn btn-light btn-calculator" id="button_positive_negative"
+                                    title="Positif Atau Negatif">+/-</button>
                             </div>
                             <div class="col-3">
                                 <button class="btn btn-secondary btn-calculator" id="button_0" title="Nol">0</button>
@@ -146,15 +151,21 @@
                                 <button class="btn btn-light btn-calculator" id="button_coma" title="Koma">,</button>
                             </div>
                             <div class="col-3">
-                                <button class="btn btn-danger btn-calculator" id="button_equal" title="Sama Dengan">=</button>
+                                <button class="btn btn-danger btn-calculator" id="button_equal"
+                                    title="Sama Dengan">=</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Copyright -->
-                <a class="d-flex justify-content-center" title="Github Repo" target="_blank" href="https://github.com/Fern-Aerell/Rellkulator"><img class="rounded mt-3" height="32px" width="32px" src="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png" alt="github-icon"></a>
-                <a target="_blank" title="LICENSE" href="https://github.com/Fern-Aerell/Rellkulator/blob/main/LICENSE"><p class="text-center mt-3">Copyright &copy; 2025 Fern Aerell</p></a>
+                <a class="d-flex justify-content-center" title="Github Repo" target="_blank"
+                    href="https://github.com/Fern-Aerell/Rellkulator"><img class="rounded mt-3" height="32px"
+                        width="32px" src="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png"
+                        alt="github-icon"></a>
+                <a target="_blank" title="LICENSE" href="https://github.com/Fern-Aerell/Rellkulator/blob/main/LICENSE">
+                    <p class="text-center mt-3">Copyright &copy; 2025 Fern Aerell</p>
+                </a>
                 <p class="text-center mt-3">All rights reserved.</p>
 
             </div>
@@ -202,7 +213,7 @@
         class Calculator {
 
             // Math operator symbol
-            OPERATORS = ['/', '*', '-', '+'];
+            OPERATORS = ['÷', 'x', '-', '+'];
 
             constructor(outputs, buttons) {
                 this.outputs = outputs;
@@ -265,8 +276,8 @@
             // Insert comma to output
             insertComma() {
                 if (this.checkMathError()) return;
-                if (!this.outputs.main.innerText.includes('.')) {
-                    this.outputs.main.innerText += '.';
+                if (!this.outputs.main.innerText.includes(',')) {
+                    this.outputs.main.innerText += ',';
                 }
             }
 
@@ -279,7 +290,7 @@
                 }
 
                 if (this.outputs.sub.innerText.length > 0) {
-                    this.outputs.sub.innerText = eval(`${this.outputs.sub.innerText}(${this.outputs.main.innerText})`);
+                    this.outputs.sub.innerText = this.evaluation(`${this.outputs.sub.innerText}(${this.outputs.main.innerText})`);
                     this.outputs.sub.innerText += ` ${op} `;
                     this.outputs.main.innerText = "0";
                     return;
@@ -294,7 +305,7 @@
                 if (this.checkMathError()) return;
 
                 if (this.outputs.sub.innerText.length > 0) {
-                    this.outputs.main.innerText = eval(`${this.outputs.sub.innerText}(${this.outputs.main.innerText})`);
+                    this.outputs.main.innerText = this.evaluation(`${this.outputs.sub.innerText}(${this.outputs.main.innerText})`);
                     this.outputs.sub.innerText = "";
                 }
             }
@@ -304,7 +315,7 @@
                 if (this.checkMathError()) return;
 
                 if (this.outputs.main.innerText.length > 0) {
-                    this.outputs.main.innerText = eval(`${this.outputs.main.innerText}/100`);
+                    this.outputs.main.innerText = this.evaluation(`${this.outputs.main.innerText}/100`);
                 }
             }
 
@@ -319,6 +330,21 @@
                             ? current.slice(1)
                             : `-${current}`;
                 }
+            }
+
+            evaluation(expression) {
+                return String(
+                    eval(
+                        expression
+                            .replaceAll('÷', '/')
+                            .replaceAll('x', '*')
+                            .replaceAll(',', '.')
+                    )
+                )
+                    .replaceAll('/', '÷')
+                    .replaceAll('*', 'x')
+                    .replaceAll('.', ',')
+                    ;
             }
         }
 
