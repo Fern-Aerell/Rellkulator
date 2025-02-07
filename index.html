@@ -9,9 +9,6 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Digital Numbers Fonts -->
-    <link href="https://fonts.cdnfonts.com/css/digital-numbers" rel="stylesheet">
-
     <!-- Rellkulator CSS -->
     <style>
         body {
@@ -38,7 +35,6 @@
             color: white;
             padding: 10px;
             border-radius: 0.375rem;
-            font-family: 'Digital Numbers', sans-serif;
         }
 
         .display-sub {
@@ -67,11 +63,8 @@
             <div class="col-12 col-md-8 col-lg-6 calculator-container">
 
                 <!-- Title -->
-                <h1 class="text-center mb-4">Rellkulator</h1>
-
-                <!-- Version -->
-                <p class="text-center mt-3">Versi 1.0.0</p>
-
+                <h1 class="text-center mb-4">Rellkulator <span style="font-size: 1rem;">1.0.0</span></h1>
+                
                 <!-- Calculator -->
                 <div class="card shadow-sm">
                     <div class="card-body">
@@ -164,14 +157,9 @@
 
                 <!-- Copyright -->
                 <a class="d-flex justify-content-center" title="Github Repo" target="_blank"
-                    href="https://github.com/Fern-Aerell/Rellkulator"><img class="rounded mt-3" height="32px"
+                    href="https://github.com/Fern-Aerell/Rellkulator"><img class="rounded mt-4" height="32px"
                         width="32px" src="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png"
                         alt="github-icon"></a>
-                <a target="_blank" title="LICENSE" href="https://github.com/Fern-Aerell/Rellkulator/blob/main/LICENSE">
-                    <p class="text-center mt-3">Copyright &copy; 2025 Fern Aerell</p>
-                </a>
-                <p class="text-center mt-3">All rights reserved.</p>
-
             </div>
         </div>
     </div>
@@ -306,7 +294,7 @@
 
             // Insert operator to output
             insertOperator(op) {
-                this.recoveryFromError();
+                this.recoveryFromError();   
 
                 if (this.OPERATORS.includes(this.outputs.main.innerText.slice(-1))) {
                     this.delete();
@@ -314,12 +302,12 @@
 
                 if (this.outputs.sub.innerText.length > 0) {
                     this.outputs.sub.innerText = this.evaluation(`${this.outputs.sub.innerText}(${this.outputs.main.innerText})`);
-                    this.outputs.sub.innerText += op;
+                    this.outputs.sub.innerText += ` ${op} `;
                     this.outputs.main.innerText = "0";
                     return;
                 }
 
-                this.outputs.sub.innerText += this.outputs.main.innerText + op;
+                this.outputs.sub.innerText += this.outputs.main.innerText + ` ${op} `;
                 this.outputs.main.innerText = "0";
             }
 
@@ -327,7 +315,7 @@
             calculate() {
                 this.recoveryFromError();
 
-                if(this.outputs.main.innerText == '20112005') {
+                if (this.outputs.main.innerText == '20112005') {
                     this.outputs.main.innerText = 'Fern Aerell'
                     return;
                 }
