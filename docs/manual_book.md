@@ -34,11 +34,10 @@ RellKulator adalah aplikasi kalkulator berbasis web yang dirancang untuk membant
 - Jika layar menampilkan "∞" atau "Kesalahan", tekan **`MU`** untuk mereset kalkulator.
 - Kombinasi angka **20112005** akan menampilkan "Fern Aerell" sebagai Easter Egg.
 
-## 5. Link Dokumentasi dan Repositori
+## 5. Link Desain, Repositori dan Manual Book
 - **Figma Design**: [Klik di sini](https://www.figma.com/design/1hk4GEFzVSF9iMyoRFg7KT/RellKulator?node-id=0-1&t=zyEoVKKgG9C0lXFp-1)
 - **GitHub Repository**: [Klik di sini](https://github.com/Fern-Aerell/Rellkulator)
-- **Dokumentasi**: [Klik di sini](https://github.com/Fern-Aerell/Rellkulator/blob/main/docs.md)
-- **Informasi Tambahan**: [Klik di sini](https://raw.githubusercontent.com/Fern-Aerell/Rellkulator/refs/heads/main/info.png)
+- **Manual Book**: [Klik di sini](https://github.com/Fern-Aerell/Rellkulator/blob/main/docs/manual_book.md)
 
 ## 6. Penutup
 RellKulator dirancang untuk kemudahan penggunaan dan fungsionalitas yang optimal. Silakan gunakan aplikasi ini sesuai kebutuhan dan jika ada masukan, silakan kirimkan melalui repository GitHub di atas.
