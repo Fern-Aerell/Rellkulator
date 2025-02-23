@@ -15,10 +15,10 @@
   "license": "BSD-3-Clause",
   "author": "Fern-Aerell",
   "scripts": {
-    "build-min-js": "npx terser js/script.js -o js/script.min.js -cm",
+    "build": "npx esbuild js/script.js --minify --outfile=js/script.min.js && npx esbuild css/style.css --minify --outfile=css/style.min.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "terser": "^5.39.0"
+    "esbuild": "^0.25.0"
   }
 }
