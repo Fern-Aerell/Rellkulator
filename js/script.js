@@ -24,166 +24,206 @@ const buttons = {
     )
 };
 
-// Kelas Kalkulator untuk menangani seluruh logika kalkulator
-class Calculator {
-    // Simbol operator matematika
-    OPERATORS = ['÷', 'x', '-', '+'];
+// Simbol operator matematika
+const operators = ['÷', 'x', '-', '+'];
 
-    constructor(output, buttons) {
-        this.output = output;
-        this.buttons = buttons;
+// Fungsi untuk mengatur ulang kalkulator
+function clear() {
+    output.innerText = "0"; // Mengatur ulang output menjadi 0
+}
 
-        // Menambahkan event listener untuk setiap tombol
-        this.buttons.clear.addEventListener("click", () => this.clear()); // Tombol reset
-        this.buttons.delete.addEventListener("click", () => this.delete()); // Tombol hapus
-        this.buttons.equal.addEventListener("click", () => this.calculate()); // Tombol sama dengan
-        this.buttons.comma.addEventListener("click", () => this.insertComma()); // Tombol koma
-        this.buttons.percent.addEventListener("click", () => this.insertPercent()); // Tombol persen
-        this.buttons.positiveNegative.addEventListener("click", () => this.toggleSign()); // Tombol positif/negatif
+// Fungsi untuk memulihkan dari error pada hasil perhitungan
+function recoveryFromError() {
+    // Memeriksa apakah ada error (∞ atau kesalahan) pada output dan mengatur ulang kalkulator
+    if (["-∞", "∞", "kesalahan"].includes(output.innerText.toLowerCase()))
+        // Reset kalkulator
+        clear();
+}
 
-        // Menambahkan event listener untuk tombol angka
-        this.buttons.numbers.forEach((btn, num) =>
-            btn.addEventListener("click", () => this.insertNumber(num))
-        );
+// Fungsi untuk menghapus angka terakhir pada output
+function del() {
+    // Reset kalkulator jika ada error
+    recoveryFromError();
 
-        // Menambahkan event listener untuk tombol operator matematika
-        Object.values(this.buttons.operators).forEach((btn, index) =>
-            btn.addEventListener("click", () => this.insertOperator(this.OPERATORS[index]))
-        );
+    // Mencari bilangan negatif di akhir output
+    const startColumnSignedNumber = output.innerText.search('\\(-[0-9]+\\)$');
+    // Jika startColumnSignedNumber tidak -1 berarti bilangan terakhir pada output adalah bilangan negatif
+    if (startColumnSignedNumber != -1) {
+        // (-bilangan) => bilangan
+        toggleSign();
+        // Akhiri fungsi
+        return;
     }
 
-    // Fungsi untuk mengatur ulang kalkulator
-    clear() {
-        this.output.innerText = "0"; // Mengatur ulang output menjadi 0
+    // Hapus satu karakter terakhir, jika kosong tampilkan 0
+    output.innerText = output.innerText.slice(0, -1) || 0;
+}
+
+// Fungsi untuk memasukkan angka pada output bawah
+function insertNumber(num) {
+    // Reset kalkulator jika ada error
+    recoveryFromError();
+
+    // Jika output terakhir adalah persen atau Jika output terakhir adalah ) jangan tambahkan angka baru
+    if (output.innerText.search("%$") != -1 || output.innerText.search("\\)$") != -1)
+        // Akhiri fungsi
+        return;
+
+    // Jika output berakhiran ",0"
+    if (output.innerText.endsWith(",0")) {
+        // Hapus angka 0
+        output.innerText = output.innerText.slice(0, -1);
+        // Tambahkan angka baru
+        output.innerText += num;
+        // Akhiri fungsi
+        return;
     }
 
-    // Fungsi untuk menghapus angka terakhir pada output bawah
-    delete() {
-        const startColumnNegatif = this.output.innerText.search('\\(-[0-9]+\\)$');
-        if (startColumnNegatif != - 1) {
-            this.output.innerText = this.output.innerText.slice(0, startColumnNegatif) + this.output.innerText.slice(startColumnNegatif).substr(2, this.output.innerText.slice(startColumnNegatif).length - 3);
-            return;
-        }
+    // Memperbarui output
+    output.innerText =
+        // Jika output adalah 0
+        output.innerText === "0" ?
+            // Ubah 0 jadi angka baru
+            num :
+            // Jika tidak tambah angka baru ke output
+            output.innerText + num;
+}
 
-        // Hapus satu karakter terakhir, jika kosong tampilkan 0
-        this.output.innerText = this.output.innerText.slice(0, -1) || "0";
+// Fungsi untuk menambahkan koma pada angka
+function insertComma() {
+    // Reset kalkulator jika ada error
+    recoveryFromError();
+
+    // Jika output sudah di akhiri bilangan desimal
+    if (output.innerText.search('[0-9]+,[0-9]+$') != -1)
+        // Akhiri fungsi
+        return;
+
+    // Jika output di akhiri bilangan bulat
+    if (output.innerText.search('[0-9]+$') != -1)
+        // Tambahkan ,0 ke output
+        output.innerText += ',0';
+}
+
+// Fungsi untuk menambahkan operator matematika pada output
+function insertOperator(op) {
+    // Reset kalkulator jika ada error
+    recoveryFromError();
+
+    // Jika karakter terakhir nya adalah operator.
+    if (operators.includes(output.innerText.slice(-1)))
+        // Hapus karakter terakhir pada output
+        del();
+
+    // Tambahkan operator ke output
+    output.innerText += op;
+}
+
+// Fungsi untuk menghitung hasil dari ekspresi matematika
+function calculate() {
+    // Reset kalkulator jika ada error
+    recoveryFromError();
+
+    // Jika output adalah 20112005
+    if (output.innerText == '20112005') {
+        // Ubah output menjadi Fern Aerell
+        output.innerText = 'Fern Aerell'
+        // Akhiri fungsi
+        return;
     }
 
-    // Fungsi untuk memulihkan dari error pada hasil perhitungan
-    recoveryFromError() {
-        // Memeriksa apakah ada error (∞ atau kesalahan) pada output dan mengatur ulang kalkulator
-        if (["∞", "kesalahan"].includes(this.output.innerText.toLowerCase())) {
-            this.clear(); // Reset kalkulator
-        }
-    }
-
-    // Fungsi untuk memasukkan angka pada output bawah
-    insertNumber(num) {
-        this.recoveryFromError(); // Memeriksa apakah ada error
-
-        if (this.output.innerText.search("([0-9]+|[0-9]+,[0-9]+)%$") != -1) return;
-
-        // Jika output berakhiran ",0", ganti 0 dengan angka baru
-        if (this.output.innerText.endsWith(",0")) {
-            this.output.innerText = this.output.innerText.slice(0, -1);
-            this.output.innerText += num;
-            return;
-        }
-
-        // Jika output adalah 0, tampilkan angka yang dimasukkan, jika tidak tambahkan angka pada output
-        this.output.innerText =
-            this.output.innerText === "0"
-                ? num
-                : this.output.innerText + num;
-    }
-
-    // Fungsi untuk menambahkan koma pada angka
-    insertComma() {
-        this.recoveryFromError(); // Memeriksa error
-
-        if (this.output.innerText.search('[0-9]+,[0-9]+$') != -1) return;
-
-        if (this.output.innerText.search('[0-9]+$') != -1) {
-            this.output.innerText += ',0';
-        }
-    }
-
-    // Fungsi untuk menambahkan operator matematika pada output
-    insertOperator(op) {
-        this.recoveryFromError(); // Memeriksa error
-
-        // Hapus karakter terakhir dari output jika karakter terakhir nya adalah operator.
-        if (this.OPERATORS.includes(this.output.innerText.slice(-1))) {
-            this.delete();
-        }
-
-        // Tambahkan operator ke output
-        this.output.innerText += op;
-    }
-
-    // Fungsi untuk menghitung hasil dari ekspresi matematika
-    calculate() {
-        this.recoveryFromError(); // Memeriksa error
-
-        if (this.output.innerText == '20112005') {
-            this.output.innerText = 'Fern Aerell'
-            return;
-        }
-
-        if (this.output.innerText.length > 0) {
-            this.output.innerText = this.evaluation(this.output.innerText);
-        }
-    }
-
-    // Fungsi untuk menambahkan simbol persen pada angka
-    insertPercent() {
-        this.recoveryFromError(); // Memeriksa error
-
-        if (this.output.innerText.length > 0 && this.output.innerText.search("([0-9]+|[0-9]+,[0-9]+)%$") == -1 && !this.OPERATORS.includes(this.output.innerText.slice(-1))) {
-            this.output.innerText += '%';
-        }
-    }
-
-    // Fungsi untuk mengubah tanda angka (positif/negatif)
-    toggleSign() {
-        this.recoveryFromError(); // Memeriksa error
-
-        const display = this.output.innerText;
-
-        if (display == 0) return;
-
-        const startColumnNoNegatif = display.search('([0-9]+|[0-9]+,[0-9]+)$');
-        if (startColumnNoNegatif != -1) {
-            this.output.innerText = display.slice(0, startColumnNoNegatif) + "(-" + display.slice(startColumnNoNegatif) + ")";
-            return;
-        }
-
-        const startColumnNegatif = display.search('\\(-([0-9]+|[0-9]+,[0-9]+)\\)$');
-        if (startColumnNegatif != - 1) {
-            this.output.innerText = display.slice(0, startColumnNegatif) + display.slice(startColumnNegatif).substr(2, display.slice(startColumnNegatif).length - 3);
-            return;
-        }
-    }
-
-    // Fungsi untuk mengevaluasi ekspresi matematika
-    evaluation(expression) {
-        return String(
-            eval(
-                expression
-                    .replaceAll('%', '/100')
-                    .replaceAll('÷', '/')
-                    .replaceAll('x', '*')
-                    .replaceAll('.', '')
-                    .replaceAll(',', '.')
-                    .replaceAll('Fern Aerell', '20112005')
-            )
-        )
-            .replaceAll('.', ',')
-            .replaceAll("Infinity", "∞")
-            .replaceAll("NaN", "Kesalahan")
-            ;
+    // Jika output tidak kosong
+    if (output.innerText.length > 0) {
+        // Evaluasi output
+        output.innerText = evaluation(output.innerText);
     }
 }
 
-// Menginisialisasi kalkulator
-new Calculator(output, buttons);
+// Fungsi untuk menambahkan simbol persen pada angka
+function insertPercent() {
+    // Reset kalkulator jika ada error
+    recoveryFromError();
+
+    // Jika output tidak kosong dan output tidak di akhiri dengan %
+    if (output.innerText.length > 0 && output.innerText.search("([0-9]+|[0-9]+,[0-9]+)%$") == -1)
+        // Tambahkan %
+        output.innerText += '%';
+}
+
+// Fungsi untuk mengubah tanda angka (positif/negatif)
+function toggleSign() {
+    // Reset kalkulator jika ada error
+    recoveryFromError();
+
+    // Jika output adalah 0
+    if (output.innerText == 0)
+        // Akhiri fungsi
+        return;
+
+    // Mencari bilangan positif di akhir output
+    const startColumnUnSignedNumber = output.innerText.search('([0-9]+|[0-9]+,[0-9]+)$');
+    // Jika startColumnUnSignedNumber tidak -1 berarti bilangan terakhir output positif
+    if (startColumnUnSignedNumber != -1) {
+        // bilangan => (-bilangan)
+        output.innerText = output.innerText.slice(0, startColumnUnSignedNumber) + "(-" + output.innerText.slice(startColumnUnSignedNumber) + ")";
+        // Akhiri fungsi
+        return;
+    }
+
+    // Mencari bilangan negatif di akhir output
+    const startColumnSignedNumber = output.innerText.search('\\(-([0-9]+|[0-9]+,[0-9]+)\\)$');
+    // Jika startColumnSignedNumber tidak -1 berarti bilangan terakhir output negatif
+    if (startColumnSignedNumber != - 1) {
+        // (-bilangan) => bilangan
+        output.innerText = output.innerText.slice(0, startColumnSignedNumber) + output.innerText.slice(startColumnSignedNumber).substring(2, output.innerText.slice(startColumnSignedNumber).length - 1);
+        // Akhiri fungsi
+        return;
+    }
+}
+
+// Fungsi untuk mengevaluasi ekspresi matematika
+function evaluation(expression) {
+    try {
+        // Keluarkan string hasil evaluasi
+        return String(
+            // Evaluasi ekspresi
+            eval(
+                expression
+                    // Merubah & menjadi /100 pada ekspresi
+                    .replaceAll('%', '/100')
+                    // Merubah ÷ menjadi / pada ekspresi
+                    .replaceAll('÷', '/')
+                    // Merubah x menjadi * pada ekspresi
+                    .replaceAll('x', '*')
+                    // Merubah , menjadi . pada ekspresi
+                    .replaceAll(',', '.')
+                    // Merubah Fern Aerell menjadi 20112005 pada ekspresi
+                    .replaceAll('Fern Aerell', '20112005')
+            )
+        )
+            // Merubah . menjadi , pada hasil evaluasi
+            .replaceAll('.', ',')
+            // Merubah Infinity menjadi ∞ pada hasil evaluasi
+            .replaceAll("Infinity", "∞")
+            // Merubah NaN menjadi Kesalahan pada hasil evaluasi
+            .replaceAll("NaN", "Kesalahan")
+            ;
+    } catch {
+        // Keluarkan ekspresi
+        return expression;
+    }
+}
+
+// Menambahkan event listener untuk setiap tombol
+buttons.clear.addEventListener("click", () => clear()); // Tombol reset
+buttons.delete.addEventListener("click", () => del()); // Tombol hapus
+buttons.equal.addEventListener("click", () => calculate()); // Tombol sama dengan
+buttons.comma.addEventListener("click", () => insertComma()); // Tombol koma
+buttons.percent.addEventListener("click", () => insertPercent()); // Tombol persen
+buttons.positiveNegative.addEventListener("click", () => toggleSign()); // Tombol positif/negatif
+
+// Menambahkan event listener untuk tombol angka
+buttons.numbers.forEach((btn, num) => btn.addEventListener("click", () => insertNumber(num)));
+
+// Menambahkan event listener untuk tombol operator matematika
+Object.values(buttons.operators).forEach((btn, index) => btn.addEventListener("click", () => insertOperator(operators[index])));

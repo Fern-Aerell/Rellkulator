@@ -1,0 +1,24 @@
+{
+  "name": "rellkulator",
+  "version": "1.0.0",
+  "description": "Kalkulator sederhana dengan html, css, dan javascript.",
+  "keywords": [
+    "kalkulator"
+  ],
+  "homepage": "https://github.com/Fern-Aerell/Rellkulator#readme",
+  "bugs": {
+    "url": "https://github.com/Fern-Aerell/Rellkulator/issues"
+  },
+  "repository": {
+    "url": "https://github.com/Fern-Aerell/Rellkulator.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Fern-Aerell",
+  "scripts": {
+    "build-min-js": "npx terser js/script.js -o js/script.min.js -cm",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "terser": "^5.39.0"
+  }
+}
