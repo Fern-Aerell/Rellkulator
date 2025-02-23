@@ -27,11 +27,11 @@ RellKulator adalah aplikasi kalkulator berbasis web yang dirancang untuk membant
 - Klik tombol **`%`** untuk mengubah angka ke persentase.
 
 ### 3.3 Menggunakan Fungsi Tambahan
-- Klik tombol **`H`** atau tekan **Backspace** untuk menghapus angka terakhir.
-- Klik tombol **`MU`** atau tekan **Escape (Esc)** untuk menghapus semua input dan mengatur ulang kalkulator.
+- Klik tombol **`H`** atau tekan **Backspace** dan **Delete** pada keyboard untuk menghapus angka terakhir.
+- Klik tombol **`MU`** atau tekan **Escape (Esc)** pada keyboard untuk menghapus semua input dan mengatur ulang kalkulator.
 - Klik tombol **`+/-`** untuk mengubah angka menjadi positif atau negatif.
-- Klik tombol **`,`** atau `.` pada keyboard untuk memasukkan angka desimal.
-- Klik tombol **`=`** atau **Enter** untuk menampilkan hasil perhitungan.
+- Klik tombol **`,`** atau `.` untuk memasukkan angka desimal.
+- Klik tombol **`=`** atau **Enter** pada keyboard untuk menampilkan hasil perhitungan.
 
 ## 4. Shortcut dan Tips
 - Jika layar menampilkan "∞" atau "Kesalahan", tekan **`MU`** atau **Esc** untuk mereset kalkulator.
