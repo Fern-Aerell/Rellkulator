@@ -214,6 +214,99 @@ function evaluation(expression) {
     }
 }
 
+// Menambahkan event listener untuk beberapa tombol keyboard
+document.addEventListener("keydown", function (event) {
+    // Jika tombol angka di pencet
+    if (event.key.search("^[0-9]$") != -1) {
+        // Mencegah aksi default
+        event.preventDefault();
+        // Tambahkan nomor
+        insertNumber(event.key);
+        // Akhiri fungsi
+        return;
+    }
+
+    // Jika ctrl + - di pencet
+    if (event.ctrlKey && event.key == '-') {
+        // Mencegah aksi default
+        event.preventDefault();
+        // Ubah bilaangan terakhir dari output menjadi negatif ataupun positif
+        toggleSign();
+        // Akhiri fungsi
+        return;
+    }
+
+    // Jika operator di pencet
+    if ((event.shiftKey && (['+', '*'].includes(event.key))) || ['+', '*', '-', 'x', '/', '÷'].includes(event.key)) {
+        // Mencegah aksi default
+        event.preventDefault();
+        // Menyimpan operator ke variabel
+        let op = event.key;
+        // Jika op == *
+        if (op == '*') {
+            // Ubah op jadi x
+            op = 'x';
+        }
+        // Jika op == /
+        else if (op == '/') {
+            // Ubah op jadi ÷
+            op = '÷';
+        }
+        // Tambahkan operator
+        insertOperator(op);
+        // Akhiri fungsi
+        return;
+    }
+
+    // Jika persen di pencet
+    if (event.key == '%') {
+        // Mencegah aksi default
+        event.preventDefault();
+        // Tambah persen ke output
+        insertPercent();
+        // Akhiri fungsi
+        return;
+    }
+
+    // Jika koma di pencet
+    if ([',', '.'].includes(event.key)) {
+        // Mencegah aksi default
+        event.preventDefault();
+        // Tambah koma ke ouput
+        insertComma();
+        // Akhiri fungsi
+        return;
+    }
+
+    // Kalkulasi
+    if (['=', 'Enter'].includes(event.key)) {
+        // Mencegah aksi default
+        event.preventDefault();
+        // Kalkulasi
+        calculate();
+        // Akhiri fungsi
+        return;
+    }
+
+    // Hapus
+    if (['Delete', 'Backspace', 'Escape'].includes(event.key)) {
+        // Mencegah aksi default
+        event.preventDefault();
+        // Jika ctrl juga di pencet
+        if (event.ctrlKey || event.key == 'Escape') {
+            // Menghapus semua karakter output
+            clear();
+        }
+        // Jika ctrl tidak di pencet
+        else {
+            // Hapus karakter output terakhir
+            del();
+        }
+        // Akhiri fungsi
+        return;
+    }
+});
+
 // Menambahkan event listener untuk setiap tombol
 buttons.clear.addEventListener("click", () => clear()); // Tombol reset
 buttons.delete.addEventListener("click", () => del()); // Tombol hapus
