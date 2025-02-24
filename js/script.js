@@ -50,8 +50,8 @@ function clear() {
 
 // Fungsi untuk memulihkan dari error pada hasil perhitungan
 function recoveryFromError() {
-    // Memeriksa apakah ada error (∞ atau kesalahan) pada output dan mengatur ulang kalkulator
-    if (["-∞", "∞", "kesalahan"].includes(output.innerText.toLowerCase()))
+    // Memeriksa apakah ada error (∞, -∞, kesalahan, tidak bisa di bagi 0) pada output dan mengatur ulang kalkulator
+    if (["-∞", "∞", "kesalahan", 'tidak bisa di bagi 0'].includes(output.innerText.toLowerCase()))
         // Reset kalkulator
         clear();
 }
@@ -139,6 +139,14 @@ function insertOperator(op) {
 function calculate() {
     // Reset kalkulator jika ada error
     recoveryFromError();
+
+    // Jika output ada di bagi 0
+    if(output.innerText.includes('/0') || output.innerText.includes('÷0')) {
+        // Ubah output menjadi tidak bisa di bagi 0
+        output.innerText = 'Tidak bisa di bagi 0';
+        // Akhiri fungsi
+        return;
+    }
 
     // Jika output adalah 20112005
     if (output.innerText == '20112005') {
