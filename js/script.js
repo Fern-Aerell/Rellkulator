@@ -1,3 +1,10 @@
+// Menginisialisasi objek html yang berisi elemen html
+const htmlElement = document.documentElement;
+// Menginisialisasi tema, mengambil tema yang di simpan di local storage, jika tidak ada otomatis ke tema light
+const savedTheme = localStorage.getItem("theme") || "light";
+// Mengatur tema pada element html sesuai savedTheme
+htmlElement.setAttribute("data-bs-theme", savedTheme);
+
 // Menginisialisasi objek outputs yang berisi elemen output kalkulator
 const output = document.getElementById("output"); // Menyimpan elemen output
 
@@ -21,7 +28,9 @@ const buttons = {
     // Elemen untuk angka
     numbers: Array.from({ length: 10 }, (_, i) =>
         document.getElementById(`button_${i}`) // Menyimpan tombol angka 0-9
-    )
+    ),
+
+    theme: document.getElementById("toggle_theme"),
 };
 
 // Simbol operator matematika
@@ -307,6 +316,18 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+// Fungsi untuk mengganti tema
+function toggleTheme() {
+    // Mengambil tema saat ini
+    const currentTheme = htmlElement.getAttribute("data-bs-theme");
+    // Menentukan tema yang akan di gunakan berikutnya
+    const newTheme = currentTheme === "light" ? "dark" : "light";
+    // Mengatur tema pada element html dengan tema berikutnya
+    htmlElement.setAttribute("data-bs-theme", newTheme);
+    // Menyimpan tema saat ini ke local storage
+    localStorage.setItem("theme", newTheme);
+}
+
 // Menambahkan event listener untuk setiap tombol
 buttons.clear.addEventListener("click", () => clear()); // Tombol reset
 buttons.delete.addEventListener("click", () => del()); // Tombol hapus
@@ -320,3 +341,6 @@ buttons.numbers.forEach((btn, num) => btn.addEventListener("click", () => insert
 
 // Menambahkan event listener untuk tombol operator matematika
 Object.values(buttons.operators).forEach((btn, index) => btn.addEventListener("click", () => insertOperator(operators[index])));
+
+// Menambahkan event listener untuk tombol theme
+buttons.theme.addEventListener("click", () => toggleTheme());

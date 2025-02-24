@@ -1,12 +1,23 @@
 /* Styling untuk body halaman */
 body {
-    background-color: #f4f4f4;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Inter', sans-serif;
     font-display: swap;
+}
+
+/* Sytling untuk warna body saat light mode */
+body, [data-bs-theme="light"] {
+    background-color: #f4f4f4;
+}
+
+/* Sytling untuk warna body saat dark mode */
+body, [data-bs-theme="dark"] {
+    background-color: #f4f4f400;
+    transition-duration: 300ms;
+    transition-property: all;
 }
 
 /* Styling untuk container kalkulator */
