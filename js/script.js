@@ -2,8 +2,15 @@
 const htmlElement = document.documentElement;
 // Menginisialisasi tema, mengambil tema yang di simpan di local storage, jika tidak ada otomatis ke tema light
 const savedTheme = localStorage.getItem("theme") || "light";
+// Menginisialisasi object yang berisi element icon yang dapat berubah sesuai tema
+const figmaIcon = document.getElementById("figma_icon");
+const githubIcon = document.getElementById("github_icon");
+const manualBookIcon = document.getElementById("manual_book_icon");
+const toggleThemeIcon = document.getElementById("toggle_theme_icon");
 // Mengatur tema pada element html sesuai savedTheme
 htmlElement.setAttribute("data-bs-theme", savedTheme);
+// Mengupdate icon
+updateIconTheme();
 
 // Menginisialisasi objek outputs yang berisi elemen output kalkulator
 const output = document.getElementById("output"); // Menyimpan elemen output
@@ -316,6 +323,18 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+// Fungsi untuk mengubah icon sesuai tema
+function updateIconTheme() {
+    // Mengambil tema saat ini
+    const currentTheme = htmlElement.getAttribute("data-bs-theme");
+
+    // Mengatur icon sesuai tema
+    figmaIcon.src = currentTheme === "light" ? "images/figma-icon-dark.webp" : "images/figma-icon-light.webp";
+    githubIcon.src = currentTheme === "light" ? "images/github-icon-dark.webp" : "images/github-icon-light.webp";
+    manualBookIcon.src = currentTheme === "light" ? "images/manual-book-icon-dark.webp" : "images/manual-book-icon-light.webp";
+    toggleThemeIcon.src = currentTheme === "light" ? "images/dark-light-mode-button-icon-dark.webp" : "images/dark-light-mode-button-icon-light.webp";
+}
+
 // Fungsi untuk mengganti tema
 function toggleTheme() {
     // Mengambil tema saat ini
@@ -326,6 +345,8 @@ function toggleTheme() {
     htmlElement.setAttribute("data-bs-theme", newTheme);
     // Menyimpan tema saat ini ke local storage
     localStorage.setItem("theme", newTheme);
+    // Mengupdate icon
+    updateIconTheme();
 }
 
 // Menambahkan event listener untuk setiap tombol
