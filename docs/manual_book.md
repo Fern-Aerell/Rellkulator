@@ -12,6 +12,7 @@ RellKulator adalah aplikasi kalkulator berbasis web yang dirancang untuk membant
 - **Support Koma**: Untuk angka desimal.
 - **Easter Egg**: Jika angka "20112005" dimasukkan, akan menampilkan "Fern Aerell".
 - **Tombol Keyboard Support**: Bisa digunakan dengan tombol keyboard.
+- **Tombol Mengganti Tema**: Bisa mengganti ke tema terang dan gelap.
 
 ## 3. Cara Menggunakan
 
